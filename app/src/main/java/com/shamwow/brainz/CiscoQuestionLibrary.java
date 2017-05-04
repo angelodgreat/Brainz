@@ -4,9 +4,9 @@ package com.shamwow.brainz;
  * Created by AngeloDesktop on 17/02/2017.
  */
 
-public class CiscoQuestionLibrary {
+class CiscoQuestionLibrary {
 
-    private String CiscoListQuestion[] = {"1. In what class does this IP address belong to? 170.20.0.1",
+    private final String[] CiscoListQuestion = {"1. In what class does this IP address belong to? 170.20.0.1",
             "2. What is the purpose of the Data Link?",
             "3. In the CIDR notation, what subnet mask does /27 represent?",
             "4. What is MTU?",
@@ -18,7 +18,7 @@ public class CiscoQuestionLibrary {
             "10. What is the 6th osi layer?",
             ""};
 
-    private String CiscoListChoices[][] =
+    private final String[][] CiscoListChoices =
             {
                     {"Class A",
                             "Class B",
@@ -50,7 +50,7 @@ public class CiscoQuestionLibrary {
             };
 
 
-    private String CiscoCorrectAnswers[] = {"Class B",
+    private final String[] CiscoCorrectAnswers = {"Class B",
             "The job of the Data Link layer is to check messages are sent to the right device.",
             "255.255.255.224",
             "Maximum Transmission Unit",
@@ -63,28 +63,23 @@ public class CiscoQuestionLibrary {
             ""};
 
     public String getListQuestions(int a) {
-        String question = CiscoListQuestion[a];
-        return question;
+        return CiscoListQuestion[a];
     }
 
     public String getChoicea(int a) {
-        String choicea = CiscoListChoices[a][0];
-        return choicea;
+        return CiscoListChoices[a][0];
     }
 
     public String getChoiceb(int a) {
-        String choiceb = CiscoListChoices[a][1];
-        return choiceb;
+        return CiscoListChoices[a][1];
     }
 
     public String getChoicec(int a) {
-        String choicec = CiscoListChoices[a][2];
-        return choicec;
+        return CiscoListChoices[a][2];
     }
 
     public String getCorrectAnswer(int a) {
-        String answer = CiscoCorrectAnswers[a];
-        return answer;
+        return CiscoCorrectAnswers[a];
     }
 
 

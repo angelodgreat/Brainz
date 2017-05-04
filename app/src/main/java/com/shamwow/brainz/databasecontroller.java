@@ -11,32 +11,32 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by AngeloDesktop on 12/02/2017.
  */
 
-public class databasecontroller extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "brainz.db";
-    frm_cisco q_cisco;
+class databasecontroller extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "brainz.db";
+    private frm_cisco q_cisco;
 
-    public static final String QUESTION_TABLE = "questions";
-    public static final String Q_COL1 = "q_id";
-    public static final String Q_COL2 = "q_subject";
-    public static final String Q_COL3 = "q_answer";
-    public static final String Q_COL4 = "q_IsFinished";
-    public static final String Q_COL5 = "q_q_a";
-    public static final String Q_COL6 = "q_q_b";
-    public static final String Q_COL7 = "q_q_c";
-    public static final String Q_Question = "q_question";
+    private static final String QUESTION_TABLE = "questions";
+    private static final String Q_COL1 = "q_id";
+    private static final String Q_COL2 = "q_subject";
+    private static final String Q_COL3 = "q_answer";
+    private static final String Q_COL4 = "q_IsFinished";
+    private static final String Q_COL5 = "q_q_a";
+    private static final String Q_COL6 = "q_q_b";
+    private static final String Q_COL7 = "q_q_c";
+    private static final String Q_Question = "q_question";
 
-    public static final String RESULTS_TABLE = "results";
-    public static final String R_COL1 = "r_id";
-    public static final String R_COL2 = "r_subject";
-    public static final String R_COL3 = "r_score";
+    private static final String RESULTS_TABLE = "results";
+    private static final String R_COL1 = "r_id";
+    private static final String R_COL2 = "r_subject";
+    private static final String R_COL3 = "r_score";
 
-    public static final String HIGHSCORE_TABLE = "highscoretable";
-    public static final String HS_COL1 = "hs_id";
-    public static final String HS_COL2 = "hs_subject";
-    public static final String HS_COL3 = "hs_score";
+    private static final String HIGHSCORE_TABLE = "highscoretable";
+    private static final String HS_COL1 = "hs_id";
+    private static final String HS_COL2 = "hs_subject";
+    private static final String HS_COL3 = "hs_score";
 
 
-    public static final String QuestionsCreate = "CREATE TABLE " + QUESTION_TABLE + " " +
+    private static final String QuestionsCreate = "CREATE TABLE " + QUESTION_TABLE + " " +
             "(" + Q_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + Q_COL2 + " TEXT,"
             + Q_COL3 + " TEXT,"
@@ -46,18 +46,18 @@ public class databasecontroller extends SQLiteOpenHelper {
             + Q_COL7 + " TEXT,"
             + Q_Question + " TEXT)";
 
-    public static final String ResultsCreate = "CREATE TABLE "
+    private static final String ResultsCreate = "CREATE TABLE "
             + RESULTS_TABLE + "("
             + R_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + R_COL2 + " TEXT,"
             + R_COL3 + " INTEGER)";
 
-    public static final String HighScoreCreate = "CREATE TABLE " + HIGHSCORE_TABLE +
+    private static final String HighScoreCreate = "CREATE TABLE " + HIGHSCORE_TABLE +
             "(" + HS_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + HS_COL2 + " TEXT,"
             + HS_COL3 + " INTEGER)";
 
-    public static final String DroppingTables = "DROP TABLE IF EXIST "
+    private static final String DroppingTables = "DROP TABLE IF EXIST "
             + QUESTION_TABLE + ","
             + RESULTS_TABLE + ","
             + HighScoreCreate;
@@ -89,17 +89,13 @@ public class databasecontroller extends SQLiteOpenHelper {
         contentValues.put(HS_COL3, hs_score);
 
         long result = db.insert(HIGHSCORE_TABLE, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
+        return result != -1;
     }
 
     public Cursor get_high_score(String subject) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor show_hs_score = db.rawQuery("SELECT MAX(hs_score) FROM " + HIGHSCORE_TABLE + " WHERE hs_subject = ?", new String[]{subject});
-        return show_hs_score;
+        return db.rawQuery("SELECT MAX(hs_score) FROM " + HIGHSCORE_TABLE + " WHERE hs_subject = ?", new String[]{subject});
 
     }
 
@@ -118,10 +114,7 @@ public class databasecontroller extends SQLiteOpenHelper {
         contentValues.put(Q_Question, q_Question);
 
         long result = db.insert(QUESTION_TABLE, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
+        return result != -1;
 
     }
 
@@ -129,8 +122,7 @@ public class databasecontroller extends SQLiteOpenHelper {
     public Cursor get_specific_questions(String q_subject) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor show_question = db.rawQuery("SELECT * FROM " + QUESTION_TABLE + " WHERE " + Q_COL2 + "= ?", new String[]{q_subject});
-        return show_question;
+        return db.rawQuery("SELECT * FROM " + QUESTION_TABLE + " WHERE " + Q_COL2 + "= ?", new String[]{q_subject});
     }
 
 
@@ -166,19 +158,17 @@ public class databasecontroller extends SQLiteOpenHelper {
         String[] columnchoices = {Q_Question, Q_COL5, Q_COL6, Q_COL7};
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor showciscoquestions = db.rawQuery("SELECT q_Question,q_q_a,q_q_b,q_q_c FROM questions WHERE q_subject = ? AND q_IsFinished = ? ", new String[]{"Cisco", "false"});
 
 
-//        Cursor showciscoquestions = db.query(true,QUESTION_TABLE,columnchoices,"q_subject=?",new String[] {"Cisco"},null,null,null,null);
+        //        Cursor showciscoquestions = db.query(true,QUESTION_TABLE,columnchoices,"q_subject=?",new String[] {"Cisco"},null,null,null,null);
 
-        return showciscoquestions;
+        return db.rawQuery("SELECT q_Question,q_q_a,q_q_b,q_q_c FROM questions WHERE q_subject = ? AND q_IsFinished = ? ", new String[]{"Cisco", "false"});
     }
 
     public Cursor get_id_for_cisco() {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor showid_cisco = db.rawQuery("SELECT q_id FROM question WHERE q_subject = ?", new String[]{"Cisco"});
-        return showid_cisco;
+        return db.rawQuery("SELECT q_id FROM question WHERE q_subject = ?", new String[]{"Cisco"});
 
     }
 

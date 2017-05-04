@@ -14,18 +14,29 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class QuestionHandler extends AppCompatActivity {
-    databasecontroller myDB;
+    private databasecontroller myDB;
 
 
     private String array_spinner[];
-    Button btn_function;
-    Spinner spinnersubj, spinnerchoose;
-    EditText q_a, q_b, q_c, q_answer, q_id, q_question;
-    RadioButton rb_add, rb_del, rb_update, rb_view;
-    RadioGroup rg_functions;
+    private Button btn_function;
+    private Spinner spinnersubj;
+    private Spinner spinnerchoose;
+    private EditText q_a;
+    private EditText q_b;
+    private EditText q_c;
+    private EditText q_answer;
+    private EditText q_id;
+    private EditText q_question;
+    private RadioButton rb_add;
+    private RadioButton rb_del;
+    private RadioButton rb_update;
+    private RadioButton rb_view;
+    private RadioGroup rg_functions;
     TextView tv_no;
-    String status;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +71,7 @@ public class QuestionHandler extends AppCompatActivity {
 
     }
 
-    public void spinnerloader() {
+    private void spinnerloader() {
         array_spinner = new String[4];
         array_spinner[0] = "MySQL";
         array_spinner[1] = "VB.NET";
@@ -71,7 +82,7 @@ public class QuestionHandler extends AppCompatActivity {
         spinnerchoose.setAdapter(adapter);
     }
 
-    public void radiooo() {
+    private void radiooo() {
 
         rb_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,38 +125,38 @@ public class QuestionHandler extends AppCompatActivity {
     }
 
 
-    public void data_manipulation() {
+    private void data_manipulation() {
 
         btn_function.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (btn_function.getText().toString() == "Add") {
+                if (Objects.equals(btn_function.getText().toString(), "Add")) {
 
                     status = "false";
 
                     boolean isInserted = myDB.insertingquestions(spinnersubj.getSelectedItem().toString(), q_answer.getText().toString(),
                             status, q_a.getText().toString(), q_b.getText().toString(), q_c.getText().toString(), q_question.getText().toString());
 
-                    if (isInserted == true)
+                    if (isInserted)
                         Toast.makeText(QuestionHandler.this, "Data Inserted", Toast.LENGTH_LONG).show();
                     else
                         Toast.makeText(QuestionHandler.this, "Data not Inserted", Toast.LENGTH_LONG).show();
 
-                } else if (btn_function.getText().toString() == "Update") {
+                } else if (Objects.equals(btn_function.getText().toString(), "Update")) {
                     status = "false";
                     boolean isUpdated = myDB.updatequestions(q_id.getText().toString(),
                             spinnersubj.getSelectedItem().toString(),
                             q_answer.getText().toString(), status, q_a.getText().toString(), q_b.getText().toString(), q_c.getText().toString(), q_question.getText().toString());
 
-                    if (isUpdated == true)
+                    if (isUpdated)
 
                         Toast.makeText(QuestionHandler.this, "Data Updated", Toast.LENGTH_LONG).show();
                     else
                         Toast.makeText(QuestionHandler.this, "Data not Updated", Toast.LENGTH_LONG).show();
 
 
-                } else if (btn_function.getText().toString() == "Delete") {
+                } else if (Objects.equals(btn_function.getText().toString(), "Delete")) {
                     Integer deletedRows = myDB.deletequestion(q_id.getText().toString());
                     if (deletedRows > 0)
 
@@ -153,7 +164,7 @@ public class QuestionHandler extends AppCompatActivity {
                     else
                         Toast.makeText(QuestionHandler.this, "Data not Deleted", Toast.LENGTH_LONG).show();
 
-                } else if (btn_function.getText().toString() == "View") {
+                } else if (Objects.equals(btn_function.getText().toString(), "View")) {
                     Cursor show_data = myDB.get_specific_questions(spinnerchoose.getSelectedItem().toString());
 
                     if (show_data.getCount() == 0) {
@@ -163,16 +174,16 @@ public class QuestionHandler extends AppCompatActivity {
 
                     }
 
-                    StringBuffer buffer = new StringBuffer();
+                    StringBuilder buffer = new StringBuilder();
                     while (show_data.moveToNext()) {
-                        buffer.append("Question ID: " + show_data.getString(0) + "\n");
-                        buffer.append("Subject: " + show_data.getString(1) + "\n");
-                        buffer.append("Answer: " + show_data.getString(2) + "\n");
-                        buffer.append("Status: " + show_data.getString(3) + "\n");
-                        buffer.append("Question A: " + show_data.getString(4) + "\n");
-                        buffer.append("Question B: " + show_data.getString(5) + "\n");
-                        buffer.append("Question C: " + show_data.getString(6) + "\n");
-                        buffer.append("Question:" + show_data.getString(7) + "\n\n");
+                        buffer.append("Question ID: ").append(show_data.getString(0)).append("\n");
+                        buffer.append("Subject: ").append(show_data.getString(1)).append("\n");
+                        buffer.append("Answer: ").append(show_data.getString(2)).append("\n");
+                        buffer.append("Status: ").append(show_data.getString(3)).append("\n");
+                        buffer.append("Question A: ").append(show_data.getString(4)).append("\n");
+                        buffer.append("Question B: ").append(show_data.getString(5)).append("\n");
+                        buffer.append("Question C: ").append(show_data.getString(6)).append("\n");
+                        buffer.append("Question:").append(show_data.getString(7)).append("\n\n");
 
                     }
 
@@ -186,7 +197,7 @@ public class QuestionHandler extends AppCompatActivity {
 
     }
 
-    public void showMessage(String title, String message) {
+    private void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);

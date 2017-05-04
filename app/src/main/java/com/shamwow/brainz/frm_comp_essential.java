@@ -11,13 +11,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class frm_comp_essential extends AppCompatActivity {
 
-    databasecontroller myDB;
-    private CompEssentialsQuestionLibrary celib = new CompEssentialsQuestionLibrary();
+    private databasecontroller myDB;
+    private final CompEssentialsQuestionLibrary celib = new CompEssentialsQuestionLibrary();
 
     @BindView(R.id.ce_rb_a)
     RadioButton rb_a;
@@ -42,8 +44,8 @@ public class frm_comp_essential extends AppCompatActivity {
     private String answer;
     private int score = 0;
     private int number = 0;
-    String ref;
-    private String subject = "Computer Essential";
+    private String ref;
+    private final String subject = "Computer Essential";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,7 @@ public class frm_comp_essential extends AppCompatActivity {
         });
     }
 
-    public void scoring() {
+    private void scoring() {
         if (number == 0) {
             score = 0;
 
@@ -75,21 +77,11 @@ public class frm_comp_essential extends AppCompatActivity {
 
 
         if (number != 5) {
-            if (ref == answer) {
+            if (Objects.equals(ref, answer)) {
                 score = score + 1;
                 updateScore(score);
                 set_questions();
 
-
-            } else if (ref == answer) {
-                score = score + 1;
-                updateScore(score);
-                set_questions();
-
-            } else if (ref == answer) {
-                score = score + 1;
-                updateScore(score);
-                set_questions();
 
             } else {
                 updateScore(score);
@@ -98,58 +90,49 @@ public class frm_comp_essential extends AppCompatActivity {
             }
         } else {
 
-            if (number == 5) {
-
-                if (ref == answer) {
-                    score = score + 1;
-                    updateScore(score);
-                    set_questions();
-                }
-
-                tv_high_score.setVisibility(View.VISIBLE);
-                tv_score.setVisibility(View.VISIBLE);
-                tv_question.setVisibility(View.INVISIBLE);
-                rb_a.setVisibility(View.GONE);
-                rb_b.setVisibility(View.GONE);
-                rb_c.setVisibility(View.GONE);
-                Toast.makeText(frm_comp_essential.this, "Finish", Toast.LENGTH_LONG).show();
-
+            if (ref == answer) {
+                score = score + 1;
                 updateScore(score);
-                insert_high_score_ce();
-                high_score_cis();
-
-                btn_show_answer.setVisibility(View.VISIBLE);
-                btn_show_answer.setText("?");
-                btn_show_answer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showMessage("Brainz Inc. Computer Essentials",
-                                "The Answer is:\n" +
-                                        "1. Internet browser\n" +
-                                        "2. Touchpad\n" +
-                                        "3. Central Processing Unit\n" +
-                                        "4. An operating system\n" +
-                                        "5. 1024 bytes\n");
-                    }
-                });
-
-                btn_next.setText("Finish");
-                btn_next.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-
-                    }
-                });
+                set_questions();
             }
+
+            tv_high_score.setVisibility(View.VISIBLE);
+            tv_score.setVisibility(View.VISIBLE);
+            tv_question.setVisibility(View.INVISIBLE);
+            rb_a.setVisibility(View.GONE);
+            rb_b.setVisibility(View.GONE);
+            rb_c.setVisibility(View.GONE);
+            Toast.makeText(frm_comp_essential.this, "Finish", Toast.LENGTH_LONG).show();
+
+            updateScore(score);
+            insert_high_score_ce();
+            high_score_cis();
+
+            btn_show_answer.setVisibility(View.VISIBLE);
+            btn_show_answer.setText("?");
+            btn_show_answer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showMessage("Brainz Inc. Computer Essentials", "The Answer is:\n" + "1. Internet browser\n" + "2. Touchpad\n" + "3. Central Processing Unit\n" + "4. An operating system\n" + "5. 1024 bytes\n");
+                }
+            });
+
+            btn_next.setText("Finish");
+            btn_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+
+                }
+            });
         }
     }
 
-    public void insert_high_score_ce() {
+    private void insert_high_score_ce() {
         String scorerecord = Integer.toString(score);
         boolean isInserted = myDB.insertinghighscore(subject, scorerecord);
-        if (isInserted == true) {
-//            Toast.makeText(frm_comp_essential.this, "Data Inserted", Toast.LENGTH_LONG).show();
+        if (isInserted) {
+            //            Toast.makeText(frm_comp_essential.this, "Data Inserted", Toast.LENGTH_LONG).show();
 
         } else {
             Toast.makeText(frm_comp_essential.this, "High Score not Recorded", Toast.LENGTH_LONG).show();
@@ -158,21 +141,21 @@ public class frm_comp_essential extends AppCompatActivity {
         showMessage("Brainz Inc. Computer Essential", "Score: " + score);
     }
 
-    public void high_score_cis() {
+    private void high_score_cis() {
         Cursor get_high_score = myDB.get_high_score(subject);
         if (get_high_score.getCount() == 0) {
             showMessage("Error", "No Data Found");
             return;
         }
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while (get_high_score.moveToNext()) {
-            buffer.append("Highest Score Computer Essential:\n" + get_high_score.getString(0) + "\n");
+            buffer.append("Highest Score Computer Essential:\n").append(get_high_score.getString(0)).append("\n");
         }
         tv_high_score.setText(buffer.toString());
     }
 
 
-    public void conditions() {
+    private void conditions() {
 
         rb_a.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +181,7 @@ public class frm_comp_essential extends AppCompatActivity {
     }
 
 
-    public void set_questions() {
+    private void set_questions() {
 
         tv_question.setText(celib.CompEssentialsgetListQuestions(number));
         rb_a.setText(celib.CompEssentialsgetChoicea(number));
@@ -213,12 +196,12 @@ public class frm_comp_essential extends AppCompatActivity {
         rb_c.setChecked(false);
     }
 
-    public void updateScore(int point) {
+    private void updateScore(int point) {
         tv_score.setText("Score: " + score);
     }
 
 
-    public void showMessage(String title, String message) {
+    private void showMessage(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle(title);

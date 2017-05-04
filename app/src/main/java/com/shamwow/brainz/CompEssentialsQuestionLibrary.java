@@ -4,9 +4,9 @@ package com.shamwow.brainz;
  * Created by AngeloDesktop on 20/02/2017.
  */
 
-public class CompEssentialsQuestionLibrary {
+class CompEssentialsQuestionLibrary {
 
-    private String CompEssentialsQuestion[] = {
+    private final String[] CompEssentialsQuestion = {
             "1. Which one of the following would be described as software?",
             "2. A laptop is mst likely to have which one of the following input devices ftted as standard",
             "3. Which one of the following is the cpu in a computer",
@@ -14,7 +14,7 @@ public class CompEssentialsQuestionLibrary {
             "5. Which one of the following is a kilobyte",
             "",};
 
-    private String CompEssentialsChoices[][] = {
+    private final String[][] CompEssentialsChoices = {
             {"Printer", "Internet browser", "Keyboard"},
             {"Scanner", "Mouse", "Touchpad"},
             {"Control Process Unit", "Calculating Process Unit", "Central Processing Unit"},
@@ -23,7 +23,7 @@ public class CompEssentialsQuestionLibrary {
             {"", "", ""},
     };
 
-    private String CompEssentialsCorrectAnswer[] = {
+    private final String[] CompEssentialsCorrectAnswer = {
             "Internet browser",
             "Touchpad",
             "Central Processing Unit",
@@ -33,27 +33,22 @@ public class CompEssentialsQuestionLibrary {
     };
 
     public String CompEssentialsgetListQuestions(int a) {
-        String question = CompEssentialsQuestion[a];
-        return question;
+        return CompEssentialsQuestion[a];
     }
 
     public String CompEssentialsgetChoicea(int a) {
-        String choicea = CompEssentialsChoices[a][0];
-        return choicea;
+        return CompEssentialsChoices[a][0];
     }
 
     public String CompEssentialsgetChoiceb(int a) {
-        String choiceb = CompEssentialsChoices[a][1];
-        return choiceb;
+        return CompEssentialsChoices[a][1];
     }
 
     public String CompEssentialsgetChoicec(int a) {
-        String choicec = CompEssentialsChoices[a][2];
-        return choicec;
+        return CompEssentialsChoices[a][2];
     }
 
     public String CompEssentialsgetCorrectAnswer(int a) {
-        String answer = CompEssentialsCorrectAnswer[a];
-        return answer;
+        return CompEssentialsCorrectAnswer[a];
     }
 }
